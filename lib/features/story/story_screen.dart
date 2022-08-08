@@ -1,11 +1,33 @@
+import 'dart:io';
+
+import 'package:chat_box/all_controllers.dart';
 import 'package:chat_box/dummy/dummy_data.dart';
+import 'package:chat_box/features/story/add_post_screen.dart';
+import 'package:chat_box/features/story/controller/all_posts_controller.dart';
 import 'package:chat_box/shared/widgets/horizontal_space.dart';
 import 'package:chat_box/shared/widgets/vertical_space.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:get/get.dart';
+import 'package:image_picker/image_picker.dart';
 
-class StoryScreen extends StatelessWidget {
+import 'widgets/story_posts_widget.dart';
+
+class StoryScreen extends StatefulWidget {
   const StoryScreen({Key? key}) : super(key: key);
+
+  @override
+  State<StoryScreen> createState() => _StoryScreenState();
+}
+
+class _StoryScreenState extends State<StoryScreen> with AllControllers {
+  File? imageFile;
+  @override
+  void initState() {
+    super.initState();
+    allPostsController.getAllPosts();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -41,67 +63,55 @@ class StoryScreen extends StatelessWidget {
                     backgroundImage: NetworkImage(image),
                   ),
                   title: const Text("Audrey Hepburn"),
-                  trailing: const Icon(Icons.add_a_photo),
+                  trailing: IconButton(
+                      onPressed: () {
+                        pickImage();
+                      },
+                      icon: const Icon(Icons.add_a_photo)),
                 ),
               ],
             ),
           ),
-          // ListTile(
-          //   leading: CircleAvatar(
-          //     backgroundImage: NetworkImage(image),
-          //   ),
-          //   title: Text("Audrey Hepburn"),
-          //   trailing: Text("5/5/2022"),
-          // ),
-          Container(
-            padding: const EdgeInsets.fromLTRB(10, 10, 10, 15),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                ListTile(
-                  contentPadding: EdgeInsets.zero,
-                  leading: CircleAvatar(
-                    backgroundImage: NetworkImage(galgadot),
-                  ),
-                  title: const Text("Gal Gadot"),
-                  trailing: const Text("5/5/2022"),
-                ),
-                const VerticalSpace(height: 5),
-                const Text("Had a great day at New York"),
-                const VerticalSpace(height: 5),
-                Image(
-                  image: NetworkImage(newYorkImage),
-                ),
-                Row(
-                  children: [
-                    OutlinedButton.icon(
-                      onPressed: () {
-                        Fluttertoast.showToast(msg: "Liked");
-                      },
-                      icon: const Icon(Icons.favorite),
-                      label: const Text("Like"),
-                      style: OutlinedButton.styleFrom(
-                        primary: Colors.black45,
-                      ),
-                    ),
-                    const HorizontalSpace(width: 15),
-                    OutlinedButton.icon(
-                      onPressed: () {
-                        Fluttertoast.showToast(msg: "Comment");
-                      },
-                      icon: const Icon(Icons.comment),
-                      label: const Text("Comment"),
-                      style: OutlinedButton.styleFrom(
-                        primary: Colors.black45,
-                      ),
-                    ),
-                  ],
-                )
-              ],
-            ),
-          )
+
+          Obx(() {
+            return ListView.builder(
+                shrinkWrap: true,
+                itemCount: allPostsController.allPosts.length,
+                itemBuilder: (context, index) {
+                  return StoryPostWidget(
+                      name: "${allPostsController.allPosts[index].id}",
+                      caption: "${allPostsController.allPosts[index].caption}",
+                      createdAt:
+                          "${allPostsController.allPosts[index].createdAt}");
+                });
+          })
+          // ListView.builder(
+          //     shrinkWrap: true,
+          //     primary: false,
+          //     // scrollDirection: Axis.vertical,
+          //     itemCount: 5,
+          //     itemBuilder: (context, index) {
+          //       return const StoryPostWidget(
+          //           name: "Gal Gadot",
+          //           caption: "A great day at New York",
+          //           createdAt: "20/20/2022");
+          //     }),
         ],
       ),
     );
+  }
+
+  Future pickImage() async {
+    try {
+      final image = await ImagePicker().pickImage(source: ImageSource.gallery);
+      if (image == null) {
+        return;
+      }
+      final temp = File(image.path);
+      this.imageFile = temp;
+      Get.to(() => AddPostScreen(imageFile: this.imageFile!));
+    } on PlatformException catch (e) {
+      debugPrint(e.toString());
+    }
   }
 }

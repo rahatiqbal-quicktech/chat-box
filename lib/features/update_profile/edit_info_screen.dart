@@ -1,3 +1,4 @@
+import 'package:chat_box/all_controllers.dart';
 import 'package:chat_box/features/update_profile/select_interests_screen.dart';
 import 'package:chat_box/features/update_profile/widgets/simple_appbar.dart';
 import 'package:chat_box/shared/widgets/vertical_space.dart';
@@ -9,8 +10,8 @@ import 'widgets/edit_info_listtile.dart';
 import 'widgets/edit_info_select_image_widget.dart';
 import 'widgets/themecolor_text.dart';
 
-class EditInfoScreen extends StatelessWidget {
-  const EditInfoScreen({Key? key}) : super(key: key);
+class EditInfoScreen extends StatelessWidget with AllControllers {
+  EditInfoScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -24,26 +25,26 @@ class EditInfoScreen extends StatelessWidget {
           // crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             // const VerticalSpace(height: 3),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                EditInfoSelectImageWidget(size: size),
-                EditInfoSelectImageWidget(size: size),
-                EditInfoSelectImageWidget(size: size),
-              ],
-            ),
+            // Row(
+            //   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            //   children: [
+            //     EditInfoSelectImageWidget(size: size),
+            //     EditInfoSelectImageWidget(size: size),
+            //     EditInfoSelectImageWidget(size: size),
+            //   ],
+            // ),
             const VerticalSpace(height: 10),
-            const ListTile(
-              title: Text("Audrey Hepburn  .  45"),
-              subtitle: Text("Active 10 minutes ago"),
+            ListTile(
+              title: Text("${profileController.name.value}  .  45"),
+              subtitle: const Text("Active 10 minutes ago"),
             ),
             const VerticalSpace(height: 15),
             const ThemecolorText("About Me"),
             const VerticalSpace(height: 15),
-            const ListTile(
+            ListTile(
               contentPadding: EdgeInsets.zero,
-              leading: Icon(Icons.edit_note),
-              title: Text("Describe yourself here"),
+              leading: const Icon(Icons.edit_note),
+              title: Text(profileController.about.value),
             ),
             const VerticalSpace(height: 15),
             const Divider(color: Colors.grey),

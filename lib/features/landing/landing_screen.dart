@@ -1,4 +1,5 @@
 import 'package:chat_box/features/sign_up/sign_up_friends_screen.dart';
+import 'package:chat_box/features/sign_up/sign_up_marriage_screen.dart';
 import 'package:chat_box/shared/widgets/horizontal_space.dart';
 import 'package:chat_box/shared/widgets/vertical_space.dart';
 import 'package:chat_box/utils/app_config.dart';
@@ -7,6 +8,8 @@ import 'package:get/get.dart';
 
 class LandingScreen extends StatelessWidget {
   const LandingScreen({Key? key}) : super(key: key);
+
+  // final bool friend;
 
   @override
   Widget build(BuildContext context) {
@@ -45,7 +48,7 @@ class LandingScreen extends StatelessWidget {
             child: OutlinedButton.icon(
               onPressed: () {
                 Get.to(
-                  () => const SignUpFriendsScreen(),
+                  () => const SignUpFriendsScreen(friends: true),
                   transition: transition,
                 );
               },
@@ -64,7 +67,7 @@ class LandingScreen extends StatelessWidget {
             child: OutlinedButton.icon(
               onPressed: () {
                 Get.to(
-                  () => const SignUpFriendsScreen(),
+                  () => const SignUpFriendsScreen(friends: false),
                   transition: Transition.rightToLeftWithFade,
                 );
               },

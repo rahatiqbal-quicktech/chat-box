@@ -1,4 +1,4 @@
-import 'package:chat_box/features/sign_up/service/send_otp_service.dart';
+import 'package:chat_box/features/sign_up/service/otp_service.dart';
 import 'package:chat_box/shared/widgets/horizontal_space.dart';
 import 'package:chat_box/shared/widgets/rounded_button_widget.dart';
 import 'package:chat_box/shared/widgets/vertical_space.dart';
@@ -40,14 +40,19 @@ class SignUpPhoneScreen extends StatelessWidget {
             TextFormField(
               controller: phoneController,
               decoration: InputDecoration(
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(10),
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                hintText: "Phone Number",
+                prefix: const Text(
+                  "+88  ",
+                  style: TextStyle(
+                    color: Colors.grey,
                   ),
-                  hintText: "Phone Number",
-                  prefix: const Text("+88  ",
-                      style: TextStyle(
-                        color: Colors.grey,
-                      ))),
+                ),
+                prefixIconConstraints:
+                    const BoxConstraints(minWidth: 0, minHeight: 0),
+              ),
             ),
             const VerticalSpace(height: 10),
             RoundButtonWidget(

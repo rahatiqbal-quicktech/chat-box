@@ -1,4 +1,5 @@
-import 'package:chat_box/features/bottom_navigation_bar/bottom_navigation_bar.dart';
+import 'package:chat_box/all_controllers.dart';
+import 'package:chat_box/features/sign_up/service/otp_service.dart';
 import 'package:chat_box/features/sign_up/sign_up_profile_screen.dart';
 import 'package:chat_box/shared/widgets/horizontal_space.dart';
 import 'package:chat_box/shared/widgets/rounded_button_widget.dart';
@@ -7,12 +8,13 @@ import 'package:chat_box/utils/app_config.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-class OtpScreen extends StatelessWidget {
-  const OtpScreen({Key? key}) : super(key: key);
+class OtpScreen extends StatelessWidget with AllControllers {
+  OtpScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size / 100;
+    final TextEditingController otpController = TextEditingController();
 
     return Scaffold(
         // backgroundColor: themeColor,
@@ -46,6 +48,7 @@ class OtpScreen extends StatelessWidget {
             ),
             const VerticalSpace(height: 10),
             TextFormField(
+              controller: otpController,
               decoration: InputDecoration(
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(10),
@@ -58,7 +61,10 @@ class OtpScreen extends StatelessWidget {
               labelText: "Verify OTP",
               icon: Icons.account_box,
               function: () {
-                Get.to(() => const SignUpProfileScreen());
+                // Get.to(() => const SignUpProfileScreen());
+                OtpService().verifyOtp(
+                    phone: signUpController.phoneNumber,
+                    otp: otpController.text);
               },
               width: double.infinity,
             ),

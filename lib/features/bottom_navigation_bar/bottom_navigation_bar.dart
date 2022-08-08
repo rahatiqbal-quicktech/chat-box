@@ -18,7 +18,7 @@ class _BottomNavigationBarScreenState extends State<BottomNavigationBarScreen> {
     const HomeScreen(),
     const MessagesScreen(),
     const StoryScreen(),
-    const ProfileScreen(),
+    ProfileScreen(),
   ];
   var _currentIndex = 0;
 

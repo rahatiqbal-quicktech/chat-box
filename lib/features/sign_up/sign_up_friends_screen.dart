@@ -1,20 +1,25 @@
+import 'package:chat_box/features/log_in/log_in_screen.dart';
+import 'package:chat_box/features/sign_up/sign_up_marriage_screen.dart';
 import 'package:chat_box/features/sign_up/sign_up_phone_screen.dart';
+import 'package:chat_box/features/sign_up/sign_up_profile_screen.dart';
 import 'package:chat_box/shared/widgets/horizontal_space.dart';
 import 'package:chat_box/shared/widgets/rounded_button_widget.dart';
 import 'package:chat_box/shared/widgets/vertical_space.dart';
 import 'package:chat_box/utils/app_config.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:http/http.dart';
 
 class SignUpFriendsScreen extends StatefulWidget {
-  const SignUpFriendsScreen({Key? key}) : super(key: key);
+  const SignUpFriendsScreen({Key? key, required this.friends})
+      : super(key: key);
+  final bool friends;
 
   @override
   State<SignUpFriendsScreen> createState() => _SignUpFriendsScreenState();
 }
 
 class _SignUpFriendsScreenState extends State<SignUpFriendsScreen> {
-  final IconData _icon = Icons.check_box_outline_blank;
   // final Color _color = Colors.grey;
   @override
   Widget build(BuildContext context) {
@@ -54,22 +59,21 @@ class _SignUpFriendsScreenState extends State<SignUpFriendsScreen> {
                 labelText: "Login with phone",
                 icon: Icons.phone,
                 function: () {
-                  Get.to(() => const SignUpPhoneScreen());
+                  Get.to(() => LogInScreen(
+                        friendsLogin: widget.friends,
+                      ));
                 }),
-            const VerticalSpace(height: 10),
-            TextButton.icon(
-              onPressed: () {},
-              icon: Icon(
-                _icon,
-                size: 15,
-              ),
-              label: const Text(
-                "I have read and agree to the Privacy Policy",
-                style: TextStyle(
-                  color: Colors.grey,
-                ),
-              ),
-            ),
+            const VerticalSpace(height: 5),
+            RoundButtonWidget(
+                labelText: "Create an account",
+                icon: Icons.edit,
+                function: () {
+                  if (widget.friends == true) {
+                    Get.to(() => const SignUpProfileScreen());
+                  } else {
+                    Get.to(const SignUpMarriageProfileScreen());
+                  }
+                }),
           ],
         ),
       )),

@@ -1,16 +1,19 @@
+import 'package:chat_box/all_controllers.dart';
 import 'package:chat_box/dummy/dummy_data.dart';
 import 'package:chat_box/features/help/help_center_screen.dart';
 import 'package:chat_box/features/settings/settings_screen.dart';
 import 'package:chat_box/features/subscription/my_subscriptions_screen.dart';
 import 'package:chat_box/features/update_profile/edit_info_screen.dart';
 import 'package:chat_box/features/wallet/wallet_screen.dart';
+import 'package:chat_box/shared/functions/access_token_functions.dart';
 import 'package:chat_box/shared/widgets/vertical_space.dart';
 import 'package:chat_box/utils/app_config.dart';
+import 'package:chat_box/utils/service_config.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-class ProfileScreen extends StatelessWidget {
-  const ProfileScreen({Key? key}) : super(key: key);
+class ProfileScreen extends StatelessWidget with AllControllers {
+  ProfileScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -21,41 +24,48 @@ class ProfileScreen extends StatelessWidget {
         shrinkWrap: true,
         primary: false,
         children: [
-          Container(
-            height: size.height * 30,
-            color: themeColor,
-            alignment: Alignment.center,
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                CircleAvatar(
-                  backgroundImage: NetworkImage(image),
-                  radius: 35,
-                ),
-                const VerticalSpace(height: 10),
-                const Text(
-                  "Audrey Hepburn",
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 17,
+          Obx(() {
+            return Container(
+              height: size.height * 30,
+              color: themeColor,
+              alignment: Alignment.center,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  const CircleAvatar(
+                    backgroundImage: NetworkImage(
+                        "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460__340.png"
+                        // "$imageBaseUrl/${profileController.mProfile.value.profilePic}",
+                        ),
+                    backgroundColor: Colors.white,
+                    radius: 35,
                   ),
-                ),
-                const VerticalSpace(height: 10),
-                GestureDetector(
-                  onTap: () {
-                    Get.to(() => const EditInfoScreen());
-                  },
-                  child: const Text(
-                    "Audrey Hepburn was a British actress and humanitarian. Recognised as both a film and fashion icon.",
-                    style: TextStyle(
+                  const VerticalSpace(height: 10),
+                  Text(
+                    profileController.name.value,
+                    // "abcde",
+                    style: const TextStyle(
                       color: Colors.white,
+                      fontSize: 17,
                     ),
-                    textAlign: TextAlign.center,
                   ),
-                ),
-              ],
-            ),
-          ),
+                  const VerticalSpace(height: 10),
+                  GestureDetector(
+                    onTap: () {
+                      Get.to(() => EditInfoScreen());
+                    },
+                    child: Text(
+                      profileController.about.value,
+                      style: const TextStyle(
+                        color: Colors.white,
+                      ),
+                      textAlign: TextAlign.center,
+                    ),
+                  ),
+                ],
+              ),
+            );
+          }),
           ListTile(
             title: const Text(
               "2000 ❤",
@@ -158,6 +168,19 @@ class ProfileScreen extends StatelessWidget {
             ),
             trailing: const Icon(
               Icons.arrow_forward_ios,
+              size: 15,
+            ),
+          ),
+          ListTile(
+            onTap: () {
+              // Get.to(() => const HelpCenterScreen());
+              AccessTokenFunctions().deleteAccessToken();
+            },
+            title: const Text(
+              "Logout",
+            ),
+            trailing: const Icon(
+              Icons.logout,
               size: 15,
             ),
           ),
