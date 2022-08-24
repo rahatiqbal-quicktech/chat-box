@@ -1,7 +1,10 @@
+// ignore_for_file: avoid_print
+
 import 'dart:developer';
 import 'dart:io';
 
 import 'package:chat_box/features/sign_up/sign_up_friends_screen.dart';
+import 'package:chat_box/utils/service_config.dart';
 import 'package:dio/dio.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter/cupertino.dart';
@@ -46,7 +49,7 @@ class SignUpMarriageService {
       });
 
       var response = await dio.post(
-          "http://chatbox.quicksoft.xyz/api/Marriage-Registration",
+          "$baseUrl/api/Marriage-Registration",
           data: formData);
 
       if (response.statusCode == 200) {
@@ -73,7 +76,7 @@ class SignUpMarriageService {
     };
 
     var url =
-        Uri.parse("http://chatbox.quicksoft.xyz/api/Marriage-Registration");
+        Uri.parse("$baseUrl/Marriage-Registration");
 
     var response = await http.post(url, body: bodyData);
     print(response.body);

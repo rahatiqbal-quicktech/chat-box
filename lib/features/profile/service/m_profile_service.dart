@@ -2,7 +2,6 @@ import 'dart:convert';
 
 import 'package:chat_box/features/profile/models/m_profile_model.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 
 class MProfileService {

@@ -4,7 +4,6 @@ import 'package:chat_box/features/settings/privacy_and_permission_screen.dart';
 import 'package:chat_box/features/update_profile/account_and_security_screen.dart';
 import 'package:chat_box/features/settings/data_and_storage_screen.dart';
 import 'package:chat_box/features/update_profile/personal_information_screen.dart';
-import 'package:chat_box/shared/functions/access_token_functions.dart';
 import 'package:chat_box/shared/widgets/subscription_list_tile_widget.dart';
 import 'package:chat_box/shared/widgets/vertical_space.dart';
 import 'package:chat_box/utils/app_config.dart';

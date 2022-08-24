@@ -3,12 +3,8 @@ import 'dart:io';
 import 'package:chat_box/all_controllers.dart';
 import 'package:chat_box/dummy/dummy_data.dart';
 import 'package:chat_box/features/story/add_post_screen.dart';
-import 'package:chat_box/features/story/controller/all_posts_controller.dart';
-import 'package:chat_box/shared/widgets/horizontal_space.dart';
-import 'package:chat_box/shared/widgets/vertical_space.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 

@@ -1,3 +1,5 @@
+// ignore_for_file: unnecessary_statements
+
 import 'package:chat_box/dummy/dummy_data.dart';
 import 'package:chat_box/shared/widgets/horizontal_space.dart';
 import 'package:chat_box/shared/widgets/vertical_space.dart';
