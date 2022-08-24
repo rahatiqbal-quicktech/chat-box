@@ -32,7 +32,6 @@ class _SignUpProfileScreenState extends State<SignUpProfileScreen>
 
   @override
   Widget build(BuildContext context) {
-    Size size = MediaQuery.of(context).size / 100;
 
     return Scaffold(
       appBar: simpleAppbar(title: "Create your account"),

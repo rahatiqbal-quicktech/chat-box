@@ -7,7 +7,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import 'widgets/edit_info_listtile.dart';
-import 'widgets/edit_info_select_image_widget.dart';
 import 'widgets/themecolor_text.dart';
 
 class EditInfoScreen extends StatelessWidget with AllControllers {
@@ -15,7 +14,6 @@ class EditInfoScreen extends StatelessWidget with AllControllers {
 
   @override
   Widget build(BuildContext context) {
-    Size size = MediaQuery.of(context).size / 100;
     return Scaffold(
       appBar: simpleAppbar(title: "Edit Info"),
       body: Padding(

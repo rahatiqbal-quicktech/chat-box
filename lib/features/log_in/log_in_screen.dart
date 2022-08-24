@@ -14,7 +14,6 @@ class LogInScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     //
     var height = MediaQuery.of(context).size.height / 100;
-    var width = MediaQuery.of(context).size.width / 100;
 
     return Scaffold(
       appBar: simpleAppbar(title: "Log In to your account"),

@@ -2,10 +2,7 @@ import 'dart:developer';
 import 'dart:io';
 
 import 'package:chat_box/features/sign_up/service/sign_up_marriage_service.dart';
-import 'package:chat_box/features/sign_up/service/sign_up_service.dart';
 import 'package:chat_box/features/sign_up/widgets/select_image_widget.dart';
-import 'package:chat_box/features/update_profile/widgets/themecolor_text.dart';
-import 'package:chat_box/shared/widgets/horizontal_space.dart';
 import 'package:chat_box/shared/widgets/rounded_button_widget.dart';
 import 'package:chat_box/shared/widgets/vertical_space.dart';
 import 'package:chat_box/utils/app_config.dart';
@@ -361,7 +358,7 @@ class _SignUpMarriageProfileScreenState
     );
   }
 
-  IconData _icon = Icons.check_box_outline_blank;
+  // IconData _icon = Icons.check_box_outline_blank;
   Future pickImage() async {
     try {
       final image = await ImagePicker().pickImage(source: ImageSource.gallery);

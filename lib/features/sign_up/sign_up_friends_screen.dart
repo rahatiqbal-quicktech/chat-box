@@ -1,14 +1,12 @@
 import 'package:chat_box/features/log_in/log_in_screen.dart';
 import 'package:chat_box/features/sign_up/sign_up_marriage_screen.dart';
 import 'package:chat_box/features/sign_up/sign_up_phone_screen.dart';
-import 'package:chat_box/features/sign_up/sign_up_profile_screen.dart';
 import 'package:chat_box/shared/widgets/horizontal_space.dart';
 import 'package:chat_box/shared/widgets/rounded_button_widget.dart';
 import 'package:chat_box/shared/widgets/vertical_space.dart';
 import 'package:chat_box/utils/app_config.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:http/http.dart';
 
 class SignUpFriendsScreen extends StatefulWidget {
   const SignUpFriendsScreen({Key? key, required this.friends})

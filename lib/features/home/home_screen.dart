@@ -1,9 +1,11 @@
+import 'package:chat_box/all_controllers.dart';
 import 'package:chat_box/dummy/dummy_data.dart';
 import 'package:chat_box/features/home/widgets/card_bottom_sheet_widget.dart';
 import 'package:chat_box/shared/widgets/buy_coins_bottom_sheet.dart';
 import 'package:chat_box/shared/widgets/horizontal_space.dart';
 import 'package:chat_box/shared/widgets/vertical_space.dart';
 import 'package:chat_box/utils/app_config.dart';
+import 'package:chat_box/utils/service_config.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
@@ -17,7 +19,7 @@ class HomeScreen extends StatefulWidget {
   State<HomeScreen> createState() => _HomeScreenState();
 }
 
-class _HomeScreenState extends State<HomeScreen> {
+class _HomeScreenState extends State<HomeScreen> with AllControllers {
   MatchEngine _matchEngine = MatchEngine();
   final List<SwipeItem> _swipeItems = <SwipeItem>[];
   // final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey();
@@ -25,7 +27,20 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   void initState() {
     super.initState();
-    for (var i = 0; i < 5; i++) {
+
+    swipeDataC.getSwipeList();
+
+    swipeDataC.scrollController.addListener(() {
+      if (swipeDataC.scrollController.position.atEdge) {
+        if (swipeDataC.scrollController.position.pixels == 0) {
+        } else {
+          swipeDataC.loadSwipeData();
+          print('Bottom');
+          print(swipeDataC.pageNumber.value);
+        }
+      }
+    });
+    for (var i = 0; i < swipeDataC.swipeDataList.length; i++) {
       _swipeItems.add(SwipeItem(
           content: Container(
             color: Colors.red,
@@ -110,6 +125,7 @@ class _HomeScreenState extends State<HomeScreen> {
       body: ListView(
         shrinkWrap: true,
         primary: false,
+        // controller: swipeDataC.scrollController,
         children: [
           const VerticalSpace(height: 5),
           Container(
@@ -119,64 +135,87 @@ class _HomeScreenState extends State<HomeScreen> {
               children: [
                 SizedBox(
                   height: size.height * 80,
-                  child: SwipeCards(
-                    matchEngine: _matchEngine,
-                    onStackFinished: () {},
-                    itemBuilder: (BuildContext context, int index) {
-                      return Stack(
-                        children: [
-                          Container(
-                            alignment: Alignment.center,
-                            // child: _swipeItems[index].content,
-                            // width: 300,
-                            // height: 100,
-                            decoration: BoxDecoration(
-                              // color: Colors.red,
-                              borderRadius: BorderRadius.circular(10),
-                            ),
-                            child: ClipRRect(
-                              borderRadius: BorderRadius.circular(10),
-                              child: Image.network(
-                                image,
-                                height: 500,
-                                fit: BoxFit.fitHeight,
+                  child: Obx(
+                    () => swipeDataC.isLoading.value == true
+                        ? Center(
+                            child: CircularProgressIndicator(),
+                          )
+                        : swipeDataC.swipeDataList.isEmpty
+                            ? Center(
+                                child: Text('no data!!!'),
+                              )
+                            : SwipeCards(
+                                matchEngine: _matchEngine,
+                                onStackFinished: () {
+                                  setState(() {
+                                    swipeDataC.loadSwipeData();
+                                    print(swipeDataC.swipeDataList.length);
+                                  });
+                                },
+                                itemBuilder: (BuildContext context, int i) {
+                                  final item = swipeDataC.swipeDataList[i];
+                                  return Stack(
+                                    children: [
+                                      Container(
+                                        alignment: Alignment.center,
+                                        // child: _swipeItems[index].content,
+                                        // width: 300,
+                                        // height: 100,
+                                        decoration: BoxDecoration(
+                                          // color: Colors.red,
+                                          borderRadius:
+                                              BorderRadius.circular(10),
+                                        ),
+                                        child: ClipRRect(
+                                          borderRadius:
+                                              BorderRadius.circular(10),
+                                          child: Image.network(
+                                            item.image1 == null
+                                                ? image
+                                                : imageBaseUrl +
+                                                    '/' +
+                                                    item.image1.toString(),
+                                            height: Get.height,
+                                            fit: BoxFit.fitHeight,
+                                          ),
+                                        ),
+                                      ),
+                                      Positioned(
+                                        bottom: size.height * 10.9,
+                                        child: SizedBox(
+                                          width: size.width * 95,
+                                          child: ListTile(
+                                            // contentPadding: EdgeInsets.zero,
+                                            horizontalTitleGap: 0,
+                                            visualDensity: const VisualDensity(
+                                                horizontal: 0, vertical: -1),
+                                            leading: const Text(
+                                              "Audrey Hepburn (90)",
+                                              style: TextStyle(
+                                                color: Colors.white,
+                                                fontSize: 19,
+                                              ),
+                                            ),
+                                            trailing: IconButton(
+                                                onPressed: () {
+                                                  Get.bottomSheet(
+                                                    CardBottomSheetWidget(
+                                                        size: size),
+                                                  );
+                                                },
+                                                icon: const Icon(
+                                                  Icons.info,
+                                                  color: Colors.white,
+                                                )),
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  );
+                                },
+                                upSwipeAllowed: true,
+                                fillSpace: true,
                               ),
-                            ),
-                          ),
-                          Positioned(
-                            bottom: size.height * 10.9,
-                            child: SizedBox(
-                              width: size.width * 95,
-                              child: ListTile(
-                                // contentPadding: EdgeInsets.zero,
-                                horizontalTitleGap: 0,
-                                visualDensity: const VisualDensity(
-                                    horizontal: 0, vertical: -1),
-                                leading: const Text(
-                                  "Audrey Hepburn (90)",
-                                  style: TextStyle(
-                                    color: Colors.white,
-                                    fontSize: 19,
-                                  ),
-                                ),
-                                trailing: IconButton(
-                                    onPressed: () {
-                                      Get.bottomSheet(
-                                        CardBottomSheetWidget(size: size),
-                                      );
-                                    },
-                                    icon: const Icon(
-                                      Icons.info,
-                                      color: Colors.white,
-                                    )),
-                              ),
-                            ),
-                          ),
-                        ],
-                      );
-                    },
-                    upSwipeAllowed: true,
-                    fillSpace: true,
                   ),
                 ),
                 Positioned(

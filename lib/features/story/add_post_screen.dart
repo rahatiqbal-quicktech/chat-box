@@ -2,7 +2,6 @@ import 'dart:io';
 
 import 'package:chat_box/features/story/service/story_services.dart';
 import 'package:chat_box/features/update_profile/widgets/simple_appbar.dart';
-import 'package:chat_box/shared/widgets/rounded_button_widget.dart';
 import 'package:chat_box/shared/widgets/vertical_space.dart';
 import 'package:chat_box/utils/app_config.dart';
 import 'package:flutter/material.dart';
@@ -16,7 +15,6 @@ class AddPostScreen extends StatelessWidget {
     TextEditingController captionController = TextEditingController();
 
     var height = MediaQuery.of(context).size.height / 100;
-    var width = MediaQuery.of(context).size.width / 100;
     return Scaffold(
       appBar: simpleAppbar(title: "Add a post"),
       body: SafeArea(

@@ -1,8 +1,7 @@
 import 'package:chat_box/all_controllers.dart';
 import 'package:chat_box/features/bottom_navigation_bar/bottom_navigation_bar.dart';
-import 'package:chat_box/features/log_in/model/login_user_model.dart';
-import 'package:chat_box/features/profile/service/m_profile_service.dart';
 import 'package:chat_box/shared/functions/access_token_functions.dart';
+import 'package:chat_box/utils/service_config.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
@@ -15,12 +14,14 @@ class LogInService with AllControllers {
       maskType: EasyLoadingMaskType.black,
     );
     try {
-      var finalUrl =
-          Uri.parse("http://chatbox.quicksoft.xyz/api/friend/auth/login");
+      var finalUrl = Uri.parse("$baseUrl/friend/auth/login");
 
       var response = await http.post(
         finalUrl,
-        body: {"phone": phone, "password": password},
+        body: {
+          "phone": phone,
+          "password": password,
+        },
       );
 
       debugPrint(response.body);
@@ -36,6 +37,9 @@ class LogInService with AllControllers {
             id: data["user"]["id"].toString(),
             imageUrl: data["user"]["image1"],
           );
+
+          AllControllers().sharePrefC.saveToken(data["access_token"]);
+          AllControllers().sharePrefC.saveUserId(data["user"]["id"]);
           AccessTokenFunctions().saveAccessToken(data["access_token"]);
 
           Get.to(() => const BottomNavigationBarScreen());
@@ -52,12 +56,14 @@ class LogInService with AllControllers {
 
   logInMarriage({required String number, required String password}) async {
     try {
-      var finalUrl = Uri.parse(
-          "http://chatbox.quicksoft.xyz/api/Marriage-Registration-login");
+      var finalUrl = Uri.parse("$baseUrl/Marriage-Registration-login");
 
       var response = await http.post(
         finalUrl,
-        body: {"number": number, "password": password},
+        body: {
+          "number": number,
+          "password": password,
+        },
       );
 
       debugPrint(response.body);
@@ -68,6 +74,8 @@ class LogInService with AllControllers {
         if (data['status'] == true) {
           // Get.to(() => const BottomNavigationBarScreen());
           // MProfileService().getData(id: data['customer_id']);
+          AllControllers().sharePrefC.saveToken(data["access_token"]);
+          AllControllers().sharePrefC.saveUserId(data["user"]["id"]); 
           profileController.getMProfile(id: data['customer_id']);
         } else {
           Get.snackbar("${data['message']}", "");
