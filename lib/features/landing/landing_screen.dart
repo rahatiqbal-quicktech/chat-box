@@ -1,9 +1,9 @@
 import 'package:chat_box/features/sign_up/sign_up_friends_screen.dart';
-import 'package:chat_box/features/sign_up/sign_up_marriage_screen.dart';
 import 'package:chat_box/shared/widgets/horizontal_space.dart';
 import 'package:chat_box/shared/widgets/vertical_space.dart';
 import 'package:chat_box/utils/app_config.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
 
 class LandingScreen extends StatelessWidget {

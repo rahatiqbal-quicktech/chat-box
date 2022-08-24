@@ -6,16 +6,15 @@ import 'package:chat_box/utils/app_config.dart';
 import 'package:flutter/material.dart';
 
 class LogInScreen extends StatelessWidget {
-  const LogInScreen({Key? key, required this.friendsLogin}) : super(key: key);
+  LogInScreen({Key? key, required this.friendsLogin}) : super(key: key);
   final bool friendsLogin;
-
+  final TextEditingController phoneController = TextEditingController();
+  final TextEditingController passWordController = TextEditingController();
   @override
   Widget build(BuildContext context) {
     //
     var height = MediaQuery.of(context).size.height / 100;
     var width = MediaQuery.of(context).size.width / 100;
-    TextEditingController phoneController = TextEditingController();
-    TextEditingController passWordController = TextEditingController();
 
     return Scaffold(
       appBar: simpleAppbar(title: "Log In to your account"),
@@ -45,6 +44,7 @@ class LogInScreen extends StatelessWidget {
             const VerticalSpace(height: 10),
             TextFormField(
               controller: passWordController,
+              obscureText: true,
               decoration: InputDecoration(
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(10),

@@ -69,7 +69,7 @@ class _SignUpFriendsScreenState extends State<SignUpFriendsScreen> {
                 icon: Icons.edit,
                 function: () {
                   if (widget.friends == true) {
-                    Get.to(() => const SignUpProfileScreen());
+                    Get.to(() => SignUpPhoneScreen());
                   } else {
                     Get.to(const SignUpMarriageProfileScreen());
                   }

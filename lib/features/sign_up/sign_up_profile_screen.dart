@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:chat_box/all_controllers.dart';
 import 'package:chat_box/features/sign_up/service/sign_up_service.dart';
 import 'package:chat_box/features/update_profile/widgets/simple_appbar.dart';
@@ -5,6 +7,9 @@ import 'package:chat_box/shared/widgets/rounded_button_widget.dart';
 import 'package:chat_box/shared/widgets/vertical_space.dart';
 import 'package:chat_box/utils/app_config.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:get/get.dart';
+import 'package:image_picker/image_picker.dart';
 
 import 'service/sign_up_service.dart';
 
@@ -22,6 +27,8 @@ class _SignUpProfileScreenState extends State<SignUpProfileScreen>
   final _formKey = GlobalKey<FormState>();
   final TextEditingController _nicknameController = TextEditingController();
   final TextEditingController _birthdateController = TextEditingController();
+  final TextEditingController passwordController = TextEditingController();
+  File? imageFile;
 
   @override
   Widget build(BuildContext context) {
@@ -56,11 +63,26 @@ class _SignUpProfileScreenState extends State<SignUpProfileScreen>
                 //     borderRadius: BorderRadius.circular(15),
                 //   ),
                 // ),
-                const Center(
-                  child: CircleAvatar(
-                    backgroundColor: Colors.grey,
-                    radius: 45,
-                  ),
+                Center(
+                  child: imageFile == null
+                      ? GestureDetector(
+                          onTap: () {
+                            pickImage();
+                          },
+                          child: const CircleAvatar(
+                            backgroundColor: Colors.grey,
+                            radius: 45,
+                          ),
+                        )
+                      : GestureDetector(
+                          onTap: () {
+                            pickImage();
+                          },
+                          child: CircleAvatar(
+                            backgroundImage: FileImage(imageFile!),
+                            radius: 45,
+                          ),
+                        ),
                 ),
                 const VerticalSpace(height: 10),
                 const Center(child: Text("Add profile photo")),
@@ -175,6 +197,8 @@ class _SignUpProfileScreenState extends State<SignUpProfileScreen>
                 const VerticalSpace(height: 20),
                 const Text("Password"),
                 TextFormField(
+                  controller: passwordController,
+                  obscureText: true,
                   decoration: const InputDecoration(hintText: "Password"),
                   validator: (value) {
                     if (value == null || value.isEmpty) {
@@ -193,12 +217,23 @@ class _SignUpProfileScreenState extends State<SignUpProfileScreen>
                         if (_formKey.currentState!.validate()) {
                           // debugPrint("Validate");
 
-                          SignUpService().signUp(
-                              name: _nicknameController.text,
-                              dob: _birthdateController.text,
-                              gender: genderString.toString(),
-                              phone: signUpController.phoneNumber,
-                              password: "123456");
+                          // SignUpService().signUp(
+                          //     name: _nicknameController.text,
+                          //     dob: _birthdateController.text,
+                          //     gender: genderString.toString(),
+                          //     phone: signUpController.phoneNumber,
+                          //     password: passwordController.text);
+                          if (imageFile == null) {
+                            Get.snackbar("No Image Selected",
+                                "Please select a profile image to continue");
+                          } else {
+                            SignUpService().signUpWithImage(
+                                name: _nicknameController.text,
+                                number: signUpController.phoneNumber,
+                                password: passwordController.text,
+                                gender: genderString.toString(),
+                                profileImage: imageFile);
+                          }
                         }
                       }),
                 ),
@@ -208,5 +243,21 @@ class _SignUpProfileScreenState extends State<SignUpProfileScreen>
         ),
       )),
     );
+  }
+
+  Future pickImage() async {
+    try {
+      final image = await ImagePicker().pickImage(source: ImageSource.gallery);
+      if (image == null) {
+        return;
+      }
+      final temp = File(image.path);
+      setState(() {
+        imageFile = temp;
+        print(imageFile);
+      });
+    } on PlatformException catch (e) {
+      debugPrint(e.toString());
+    }
   }
 }

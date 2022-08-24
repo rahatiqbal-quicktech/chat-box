@@ -1,6 +1,7 @@
 import 'package:chat_box/features/bottom_navigation_bar/bottom_navigation_bar.dart';
 import 'package:chat_box/features/profile/models/m_profile_model.dart';
 import 'package:chat_box/features/profile/service/m_profile_service.dart';
+import 'package:chat_box/utils/service_config.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 
@@ -8,6 +9,7 @@ class ProfileController extends GetxController {
   var name = "".obs;
   var about = "".obs;
   var userId = "".obs;
+  var profileImageUrl = "".obs;
 
   // var about = Rxn<String>();
 
@@ -17,10 +19,12 @@ class ProfileController extends GetxController {
     required String profileName,
     required String id,
     String? profileAbout,
+    String? imageUrl,
   }) {
     name.value = profileName;
     userId.value = id;
     about.value = profileAbout ?? "Tap to add a cool bio";
+    profileImageUrl.value = imageBaseUrl + "/" + imageUrl!;
   }
 
   getMProfile({required int id}) async {

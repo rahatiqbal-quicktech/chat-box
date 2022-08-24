@@ -159,6 +159,7 @@ class _SignUpMarriageProfileScreenState
                 const Text("Password"),
                 TextFormField(
                   controller: passwordController,
+                  obscureText: true,
                   decoration: const InputDecoration(hintText: "Password"),
                   validator: (value) {
                     if (value == null || value.isEmpty) {
@@ -311,11 +312,11 @@ class _SignUpMarriageProfileScreenState
                 //     ),
                 //   ),
                 // ),
-                ElevatedButton(
-                    onPressed: () {
-                      SignUpMarriageService().signUpUsingHttp();
-                    },
-                    child: const Text("Sign Up")),
+                // ElevatedButton(
+                //     onPressed: () {
+                //       SignUpMarriageService().signUpUsingHttp();
+                //     },
+                //     child: const Text("Sign Up")),
                 SizedBox(
                   width: double.infinity,
                   child: RoundButtonWidget(
@@ -326,9 +327,9 @@ class _SignUpMarriageProfileScreenState
                         // debugPrint("Validate");
                         // SignUpService().signUp();
                         // Get.to(() => const BottomNavigationBarScreen());
-                        if (imageFile == null || nidImageFile == null) {
-                          Get.snackbar("Nid and rofile photo required",
-                              "You need to provide both NID photo and your profile photo.");
+                        if (nidImageFile == null) {
+                          Get.snackbar("Nid photo required",
+                              "You need to provide both NID photo.");
                         } else {
                           // print("abcde");
                           log("abcde");

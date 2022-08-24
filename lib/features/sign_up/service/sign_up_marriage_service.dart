@@ -30,8 +30,8 @@ class SignUpMarriageService {
       FormData formData = FormData.fromMap({
         "name": name,
         "number": number,
-        "nid_card": await MultipartFile.fromFile(nidCardImage!.path),
-        "profile_pic": await MultipartFile.fromFile(profileImage!.path),
+        // "nid_card": await MultipartFile.fromFile(nidCardImage!.path),
+        // "profile_pic": await MultipartFile.fromFile(profileImage!.path),
         "permanent_address": permanentAddress,
         "educational_status": educationalStatus,
         "family_member": familyMember,

@@ -4,12 +4,16 @@ import 'package:chat_box/features/log_in/model/login_user_model.dart';
 import 'package:chat_box/features/profile/service/m_profile_service.dart';
 import 'package:chat_box/shared/functions/access_token_functions.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert' as convert;
 
 class LogInService with AllControllers {
   logIn({required String phone, required String password}) async {
+    EasyLoading.show(
+      maskType: EasyLoadingMaskType.black,
+    );
     try {
       var finalUrl =
           Uri.parse("http://chatbox.quicksoft.xyz/api/friend/auth/login");
@@ -25,19 +29,23 @@ class LogInService with AllControllers {
         var data = convert.jsonDecode(response.body) as Map<String, dynamic>;
 
         if (data['status'] == true) {
+          EasyLoading.dismiss();
           // var temp = LoginUserModel.fromJson(data);
           profileController.getUserProfile(
             profileName: data["user"]["name"],
             id: data["user"]["id"].toString(),
+            imageUrl: data["user"]["image1"],
           );
           AccessTokenFunctions().saveAccessToken(data["access_token"]);
 
           Get.to(() => const BottomNavigationBarScreen());
         } else {
           Get.snackbar("${data['message']}", "");
+          EasyLoading.dismiss();
         }
       }
     } catch (e) {
+      EasyLoading.dismiss();
       debugPrint(e.toString());
     }
   }

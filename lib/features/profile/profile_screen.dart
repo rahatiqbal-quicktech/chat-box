@@ -1,16 +1,19 @@
+import 'dart:io';
+
 import 'package:chat_box/all_controllers.dart';
-import 'package:chat_box/dummy/dummy_data.dart';
 import 'package:chat_box/features/help/help_center_screen.dart';
 import 'package:chat_box/features/settings/settings_screen.dart';
 import 'package:chat_box/features/subscription/my_subscriptions_screen.dart';
 import 'package:chat_box/features/update_profile/edit_info_screen.dart';
+import 'package:chat_box/features/update_profile/upload_profile_image_screen.dart';
 import 'package:chat_box/features/wallet/wallet_screen.dart';
 import 'package:chat_box/shared/functions/access_token_functions.dart';
 import 'package:chat_box/shared/widgets/vertical_space.dart';
 import 'package:chat_box/utils/app_config.dart';
-import 'package:chat_box/utils/service_config.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
+import 'package:image_picker/image_picker.dart';
 
 class ProfileScreen extends StatelessWidget with AllControllers {
   ProfileScreen({Key? key}) : super(key: key);
@@ -32,13 +35,20 @@ class ProfileScreen extends StatelessWidget with AllControllers {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  const CircleAvatar(
-                    backgroundImage: NetworkImage(
-                        "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460__340.png"
+                  GestureDetector(
+                    onTap: () {
+                      pickImage();
+                    },
+                    child: CircleAvatar(
+                      backgroundImage: NetworkImage(
+                        profileController.profileImageUrl != null
+                            ? profileController.profileImageUrl.value
+                            : "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460__340.png",
                         // "$imageBaseUrl/${profileController.mProfile.value.profilePic}",
-                        ),
-                    backgroundColor: Colors.white,
-                    radius: 35,
+                      ),
+                      backgroundColor: Colors.white,
+                      radius: 35,
+                    ),
                   ),
                   const VerticalSpace(height: 10),
                   Text(
@@ -187,5 +197,19 @@ class ProfileScreen extends StatelessWidget with AllControllers {
         ],
       )),
     );
+  }
+
+  Future pickImage() async {
+    try {
+      final image = await ImagePicker().pickImage(source: ImageSource.gallery);
+      if (image == null) {
+        return;
+      }
+      final temp = File(image.path);
+      updateProfileController.getImageFile(temp.path);
+      Get.to(() => UploadProfileImageScreen());
+    } on PlatformException catch (e) {
+      debugPrint(e.toString());
+    }
   }
 }

@@ -1,6 +1,5 @@
 import 'package:chat_box/all_controllers.dart';
 import 'package:chat_box/features/sign_up/service/otp_service.dart';
-import 'package:chat_box/features/sign_up/sign_up_profile_screen.dart';
 import 'package:chat_box/shared/widgets/horizontal_space.dart';
 import 'package:chat_box/shared/widgets/rounded_button_widget.dart';
 import 'package:chat_box/shared/widgets/vertical_space.dart';
@@ -10,11 +9,11 @@ import 'package:get/get.dart';
 
 class OtpScreen extends StatelessWidget with AllControllers {
   OtpScreen({Key? key}) : super(key: key);
+  final TextEditingController otpController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size / 100;
-    final TextEditingController otpController = TextEditingController();
 
     return Scaffold(
         // backgroundColor: themeColor,

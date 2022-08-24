@@ -7,12 +7,12 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class SignUpPhoneScreen extends StatelessWidget {
-  const SignUpPhoneScreen({Key? key}) : super(key: key);
-
+  SignUpPhoneScreen({Key? key}) : super(key: key);
+  final TextEditingController phoneController = TextEditingController();
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size / 100;
-    TextEditingController phoneController = TextEditingController();
+
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
